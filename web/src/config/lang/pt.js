@@ -197,6 +197,8 @@ export default {
 		CANT_LOGIN: 'Não consegue fazer o login?',
 		NO_ACCOUNT: 'Não tem uma conta?',
 		CREATE_ACCOUNT: 'Crie uma aqui',
+		MOEDA_PAY_ACCOUNT: 'Tem conta no MoedaPay?',
+		CONNECT_WITH_MOEDA_PAY: 'Conectar pelo MoedaPay',
 		HELP: 'Ajuda',
 	},
 	FORM_FIELDS: {
@@ -962,6 +964,7 @@ export default {
 	},
 	WALLET_BUTTON_BASE_DEPOSIT: 'depósito',
 	WALLET_BUTTON_BASE_WITHDRAW: 'saque',
+	WALLET_BUTTON_BASE_WITHDRAW_MOEDA: 'enviar para conta Moeda',
 	WALLET_BUTTON_CRYPTOCURRENCY_DEPOSIT: 'receber',
 	WALLET_BUTTON_CRYPTOCURRENCY_WITHDRAW: 'enviar',
 	AVAILABLE_TEXT: 'Disponível',

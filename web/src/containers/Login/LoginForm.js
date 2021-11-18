@@ -25,7 +25,7 @@ const Form = (props) => {
 		},
 		password: {
 			type: 'password',
-			validate: [required, password],
+			validate: [required],
 			fullWidth: true,
 			label: STRINGS['FORM_FIELDS.PASSWORD_LABEL'],
 			placeholder: STRINGS['FORM_FIELDS.PASSWORD_PLACEHOLDER'],

@@ -7,6 +7,10 @@ import { SubmissionError, change } from 'redux-form';
 import { bindActionCreators } from 'redux';
 import { performSignup } from '../../actions/authAction';
 import SignupForm, { generateFormFields, FORM_NAME } from './SignupForm';
+import SignupWithMoedaPayForm, {
+	generateFormFields as generateMoedaPayFormFields,
+	FORM_NAME as MOEDA_PAY_FORM_NAME,
+} from './SignupWithMoedaPayForm';
 import SignupSuccess from './SignupSuccess';
 import { ContactForm } from '../';
 import { IconTitle, Dialog, MobileBarBack } from '../../components';
@@ -173,6 +177,13 @@ class Signup extends Component {
 			isReferral
 		);
 
+		const moedaPayFormFields = generateMoedaPayFormFields(
+			STRINGS,
+			activeTheme,
+			constants.links,
+			isReferral
+		);
+
 		return (
 			<div className={classnames(...FLEX_CENTER_CLASSES, 'flex-column', 'f-1')}>
 				{isMobile && !showContactForm && (
@@ -214,9 +225,13 @@ class Signup extends Component {
 							'w-100'
 						)}
 					>
-						<SignupForm
+						{/* <SignupForm
 							onSubmit={this.onSubmitSignup}
 							formFields={formFields}
+						/> */}
+						<SignupWithMoedaPayForm
+							onSubmit={this.onSubmitSignup}
+							formFields={moedaPayFormFields}
 						/>
 						{isMobile && <BottomLinks />}
 					</div>

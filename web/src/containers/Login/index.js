@@ -23,11 +23,31 @@ import withConfig from 'components/ConfigProvider/withConfig';
 let errorTimeOut = null;
 
 const BottomLink = () => (
-	<div className={classnames('f-1', 'link_wrapper')}>
-		{STRINGS['LOGIN.NO_ACCOUNT']}
-		<Link to="/signup" className={classnames('blue-link')}>
-			{STRINGS['LOGIN.CREATE_ACCOUNT']}
-		</Link>
+	<div>
+		<div
+			className={classnames(
+				'f-1 d-flex align-center justify-content-center',
+				'link_wrapper'
+			)}
+		>
+			{STRINGS['LOGIN.NO_ACCOUNT']}
+			<Link to="/signup" className={classnames('blue-link')}>
+				{' '}
+				{STRINGS['LOGIN.CREATE_ACCOUNT']}
+			</Link>
+		</div>
+		<div
+			className={classnames(
+				'f-1 d-flex align-center justify-content-center',
+				'link_wrapper'
+			)}
+		>
+			{STRINGS['LOGIN.MOEDA_PAY_ACCOUNT']}
+			<Link to="/signup" className={classnames('blue-link')}>
+				{' '}
+				{STRINGS['LOGIN.CONNECT_WITH_MOEDA_PAY']}
+			</Link>
+		</div>
 	</div>
 );
 

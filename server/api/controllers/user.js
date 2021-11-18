@@ -57,7 +57,7 @@ const INITIAL_SETTINGS = () => {
 	};
 };
 
-const signUpMoedaUser = ({ email, password }) => {
+const signUpMoedaUser = (req, { email, password }) => {
 	const ip = req.headers['x-real-ip'];
 	email = email.toLowerCase();
 
@@ -65,70 +65,60 @@ const signUpMoedaUser = ({ email, password }) => {
 		throw new Error(PROVIDE_VALID_EMAIL);
 	}
 
-	return new Promise((resolve, reject) => {
-		toolsLib.database
-			.findOne('user', {
-				where: { email },
-				attributes: ['email'],
-			})
-			.then((user) => {
-				if (user) {
-					reject(USER_EXISTS);
-					return;
-				}
-				toolsLib.database
-					.getModel('sequelize')
-					.transaction((transaction) => {
-						return toolsLib.database
-							.getModel('user')
-							.create(
+	return toolsLib.database
+		.findOne('user', {
+			where: { email },
+			attributes: ['email'],
+		})
+		.then((user) => {
+			if (user) {
+				reject(USER_EXISTS);
+				return;
+			}
+			return toolsLib.database
+				.getModel('sequelize')
+				.transaction((transaction) => {
+					return toolsLib.database
+						.getModel('user')
+						.create(
+							{
+								email,
+								password,
+								verification_level: 1,
+								settings: INITIAL_SETTINGS(),
+							},
+							{ transaction }
+						)
+						.then((user) => {
+							return all([
+								toolsLib.user.createUserOnNetwork(email, {
+									additionalHeaders: {
+										'x-forwarded-for': req.headers['x-forwarded-for'],
+										'kit-version': version,
+									},
+								}),
+								user,
+							]);
+						})
+						.then(([networkUser, user]) => {
+							return user.update(
+								{ network_id: networkUser.id },
 								{
-									email,
-									password,
-									verification_level: 1,
-									settings: INITIAL_SETTINGS(),
-								},
-								{ transaction }
-							)
-							.then((user) => {
-								return all([
-									toolsLib.user.createUserOnNetwork(email, {
-										additionalHeaders: {
-											'x-forwarded-for':
-												req.headers['x-forwarded-for'],
-											'kit-version': version,
-										},
-									}),
-									user,
-								]);
-							})
-							.then(([networkUser, user]) => {
-								resolve(
-									user.update(
-										{ network_id: networkUser.id },
-										{
-											fields: ['network_id'],
-											returning: true,
-											transaction,
-										}
-									)
-								);
-								return;
-							});
-					});
-			})
-			.catch((err) => {
-				loggerUser.error(
-					req.uuid,
-					'controllers/user/signUpUser',
-					err.message
-				);
-				reject('ERROR_CREATING_USER');
-				return res
-					.status(err.statusCode || 400)
-					.json({ message: errorMessageConverter(err) });
-			});
-	});
+									fields: ['network_id'],
+									returning: true,
+									transaction,
+								}
+							);
+						});
+				});
+		})
+		.catch((err) => {
+			loggerUser.error(req.uuid, 'controllers/user/signUpUser', err.message);
+			reject('ERROR_CREATING_USER');
+			return res
+				.status(err.statusCode || 400)
+				.json({ message: errorMessageConverter(err) });
+		});
 };
 
 const signUpUser = (req, res) => {
@@ -361,19 +351,26 @@ const loginPost = (req, res) => {
 
 	toolsLib.user
 		.getUserByEmail(email)
-		.then((user) => {
+		.then(async (user) => {
 			if (!user) {
-				// signinMoedaUser({
-				// 	contact: email,
-				// 	password,
-				// })
-				// 	.then((res) => {
-				// 		signUpMoedaUser();
-				// 	})
-				// 	.catch((e) => {
-				// 		console.log(e);
-				// 	});
-				throw new Error(USER_NOT_FOUND);
+				try {
+					const moedaUser = await signinMoedaUser({
+						contact: email,
+						password,
+					});
+					if (moedaUser) {
+						await signUpMoedaUser(req, {
+							email,
+							password,
+						});
+						user = await toolsLib.user.getUserByEmail(email);
+					} else {
+						throw new Error(USER_NOT_FOUND);
+					}
+				} catch (e) {
+					console.log(e);
+					throw new Error(USER_NOT_FOUND);
+				}
 			}
 			if (user.verification_level === 0) {
 				throw new Error(USER_NOT_VERIFIED);
