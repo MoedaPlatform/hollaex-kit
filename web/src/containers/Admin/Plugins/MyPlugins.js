@@ -35,7 +35,7 @@ class MyPlugins extends Component {
 		if (e.target.value) {
 			params.search = e.target.value;
 		}
-		this.searchPlugin(1, 50, params);
+		this.searchPlugin(params);
 	};
 
 	handlePlugin = () => {
@@ -143,14 +143,7 @@ class MyPlugins extends Component {
 	};
 
 	checkJSON = (json) => {
-		if (
-			json &&
-			json.name &&
-			json.script &&
-			json.version &&
-			json.description &&
-			json.author
-		) {
+		if (json && json.name && json.version && json.author) {
 			return true;
 		} else {
 			return false;

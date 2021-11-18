@@ -71,8 +71,8 @@ class Plugins extends Component {
 		}
 	};
 
-	getMyPlugins = (page = 1, limit = 50, params = {}) => {
-		return requestMyPlugins({ page, limit, ...params })
+	getMyPlugins = (params = {}) => {
+		return requestMyPlugins(params)
 			.then((res) => {
 				if (res && res.data) {
 					this.setState({ myPlugins: res.data });
@@ -83,9 +83,9 @@ class Plugins extends Component {
 			});
 	};
 
-	getPlugins = (page = 1, limit = 50, params = {}) => {
+	getPlugins = (params = {}) => {
 		// this.setState({ loading: true });
-		return requestPlugins({ page, limit, ...params })
+		return requestPlugins(params)
 			.then((res) => {
 				if (res && res.data) {
 					let pluginCards = this.state.pluginCards;
@@ -194,6 +194,7 @@ class Plugins extends Component {
 			selectedPlugin: {},
 			type: '',
 			isConfigure: false,
+			tabKey: 'explore',
 		});
 	};
 
@@ -247,6 +248,10 @@ class Plugins extends Component {
 		});
 	};
 
+	handleRedirect = () => {
+		this.setState({ type: 'configure', isConfigure: true });
+	};
+
 	render() {
 		const {
 			loading,
@@ -298,6 +303,7 @@ class Plugins extends Component {
 							updatePluginList={this.handleUpdatePluginList}
 							removePlugin={this.removePlugin}
 							restart={this.handleRestart}
+							handleRedirect={this.handleRedirect}
 						/>
 					</div>
 				) : (

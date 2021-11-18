@@ -10,7 +10,7 @@ import { subtract } from '../utils';
 import STRINGS from '../../../config/localizedStrings';
 import withConfig from 'components/ConfigProvider/withConfig';
 
-const generateHeaders = (pairData = {}, onCancel, onCancelAll, ICONS) => [
+const generateHeaders = (pairs = {}, onCancel, onCancelAll, ICONS) => [
 	{
 		label: STRINGS['PAIR'],
 		key: 'pair',
@@ -63,7 +63,8 @@ const generateHeaders = (pairData = {}, onCancel, onCancelAll, ICONS) => [
 	{
 		label: STRINGS['PRICE'],
 		key: 'price',
-		renderCell: ({ price = 0 }, key, index) => {
+		renderCell: ({ price = 0, symbol }, key, index) => {
+			let pairData = pairs[symbol] || {};
 			return (
 				<td key={index}>{formatToCurrency(price, pairData.increment_price)}</td>
 			);
@@ -73,7 +74,8 @@ const generateHeaders = (pairData = {}, onCancel, onCancelAll, ICONS) => [
 		label: STRINGS['AMOUNT'],
 		key: 'size',
 		exportToCsv: ({ size = 0 }) => size,
-		renderCell: ({ size = 0, ...rest }, key, index) => {
+		renderCell: ({ size = 0, symbol }, key, index) => {
+			let pairData = pairs[symbol] || {};
 			return (
 				<td key={index}>{formatToCurrency(size, pairData.increment_size)}</td>
 			);
@@ -82,7 +84,8 @@ const generateHeaders = (pairData = {}, onCancel, onCancelAll, ICONS) => [
 	{
 		label: STRINGS['REMAINING'],
 		key: 'remaining',
-		renderCell: ({ size = 0, filled = 0 }, key, index) => {
+		renderCell: ({ size = 0, filled = 0, symbol }, key, index) => {
+			let pairData = pairs[symbol] || {};
 			return (
 				<td key={index}>
 					{formatToCurrency(subtract(size, filled), pairData.increment_size)}
@@ -115,9 +118,12 @@ const generateHeaders = (pairData = {}, onCancel, onCancelAll, ICONS) => [
 	{
 		label: STRINGS['TRIGGER_CONDITIONS'],
 		key: 'type',
-		exportToCsv: ({ stop }) =>
-			stop && formatToCurrency(stop, pairData.increment_price),
-		renderCell: ({ stop }, key, index) => {
+		exportToCsv: ({ stop, symbol }) => {
+			let pairData = pairs[symbol] || {};
+			return stop && formatToCurrency(stop, pairData.increment_price);
+		},
+		renderCell: ({ stop, symbol }, key, index) => {
+			let pairData = pairs[symbol] || {};
 			return (
 				<td key={index} className="px-2">
 					{stop && formatToCurrency(stop, pairData.increment_price)}
@@ -162,7 +168,7 @@ const generateHeaders = (pairData = {}, onCancel, onCancelAll, ICONS) => [
 ];
 
 const ActiveOrders = ({
-	pairData,
+	pairs,
 	orders,
 	onCancel,
 	onCancelAll,
@@ -180,7 +186,7 @@ const ActiveOrders = ({
 			}
 		>
 			<Table
-				headers={generateHeaders(pairData, onCancel, onCancelAll, ICONS)}
+				headers={generateHeaders(pairs, onCancel, onCancelAll, ICONS)}
 				cancelDelayData={cancelDelayData}
 				data={orders}
 				count={orders.length}

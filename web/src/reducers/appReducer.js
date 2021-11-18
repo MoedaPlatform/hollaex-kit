@@ -38,7 +38,7 @@ import { getLanguage } from '../utils/string';
 import { getTheme } from '../utils/theme';
 import { unique } from 'utils/data';
 import { getFavourites, setFavourites } from 'utils/favourites';
-import { generateGlobalId } from 'utils/id';
+import { generateGlobalId, generateDynamicTarget } from 'utils/id';
 import { mapPluginsTypeToName } from 'utils/plugin';
 
 const EMPTY_NOTIFICATION = {
@@ -152,9 +152,7 @@ const INITIAL_STATE = {
 	wave: [],
 	enabledPlugins: [],
 	plugins: [],
-	pluginNames: {
-		bank: 'bank',
-	},
+	pluginNames: {},
 	helpdeskInfo: {
 		has_helpdesk: false,
 		helpdesk_endpoint: '',
@@ -167,6 +165,7 @@ const INITIAL_STATE = {
 	features: {},
 	injected_values: [],
 	injected_html: {},
+	plugins_injected_html: {},
 };
 
 const reducer = (state = INITIAL_STATE, { type, payload = {} }) => {
@@ -380,17 +379,16 @@ const reducer = (state = INITIAL_STATE, { type, payload = {} }) => {
 				...enabledPluginTypes,
 			]);
 
-			const { name: bank = 'bank' } =
-				payload.enabledPlugins.find(({ type }) => type === 'bank') || {};
+			const pluginNames = {};
+			payload.enabledPlugins.forEach(({ type, name }) => {
+				pluginNames[type ? type : name] = name;
+			});
 
 			return {
 				...state,
 				enabledPlugins,
 				plugins: payload.enabledPlugins,
-				pluginNames: {
-					...state.pluginNames,
-					bank,
-				},
+				pluginNames,
 			};
 		}
 		case SET_HELPDESK_INFO: {
@@ -419,11 +417,11 @@ const reducer = (state = INITIAL_STATE, { type, payload = {} }) => {
 			});
 
 			const remoteRoutes = [];
-			allWebViews.forEach(({ target, meta, name }) => {
+			allWebViews.forEach(({ meta, name }) => {
 				if (meta && meta.is_page) {
 					const { icon_id, string_id, ...rest } = meta;
 					remoteRoutes.push({
-						target,
+						target: generateDynamicTarget(name, 'page'),
 						icon_id: generateGlobalId(name)(icon_id),
 						string_id: generateGlobalId(name)(string_id),
 						...rest,
@@ -431,9 +429,29 @@ const reducer = (state = INITIAL_STATE, { type, payload = {} }) => {
 				}
 			});
 
+			const plugins_injected_html = { head: '', body: '' };
+			allWebViews.forEach(({ injected_html = {} }) => {
+				Object.keys(plugins_injected_html).forEach((key) => {
+					if (injected_html && injected_html[key]) {
+						plugins_injected_html[key] = plugins_injected_html[key].concat(
+							injected_html[key]
+						);
+					}
+				});
+			});
+
 			const CLUSTERED_WEB_VIEWS = {};
 			allWebViews.forEach((plugin) => {
-				const { target } = plugin;
+				const { target: staticTarget, meta, name } = plugin;
+				let target;
+				if (staticTarget) {
+					target = staticTarget;
+				} else if (meta) {
+					const { is_page } = meta;
+					if (is_page) {
+						target = generateDynamicTarget(name, 'page');
+					}
+				}
 				if (!CLUSTERED_WEB_VIEWS[target]) {
 					CLUSTERED_WEB_VIEWS[target] = [plugin];
 				} else {
@@ -452,19 +470,9 @@ const reducer = (state = INITIAL_STATE, { type, payload = {} }) => {
 				}
 			});
 
-			if (process.env.REACT_APP_PLUGIN_DEV_MODE === 'true') {
-				FILTERED_CLUSTERED_WEB_VIEWS[
-					process.env.REACT_APP_PLUGIN_WEB_VIEW_TARGET
-				] = [
-					{
-						target: process.env.REACT_APP_PLUGIN_WEB_VIEW_TARGET,
-						src: '/main.js',
-					},
-				];
-			}
-
 			return {
 				...state,
+				plugins_injected_html,
 				webViews: FILTERED_CLUSTERED_WEB_VIEWS,
 				targets: Object.entries(FILTERED_CLUSTERED_WEB_VIEWS).map(
 					([target]) => target

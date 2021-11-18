@@ -29,10 +29,10 @@
 	width: 100%;
 	/* flex: 1; */
 }
-.app_container-content .ant-tabs,
-.app_container-content h2,
-.ant-tabs-tab:hover,
-.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+.admin-content-wrapper .ant-tabs,
+.admin-content-wrapper h2,
+.admin-content-wrapper .ant-tabs-tab:hover,
+.admin-content-wrapper .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
 	color: #ffffff;
 }
 .admin-content-head {
@@ -126,7 +126,7 @@
 	font-size: 14px;
 }
 .ant-layout-sider .ant-layout-sider-children {
-	background-color: #0000ff;
+	background-color: var(--admin_panel_sidebar_background);
 }
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
 	background-color: var(--admin_panel_sidebar_background);

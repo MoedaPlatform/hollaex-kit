@@ -1,5 +1,6 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import 'whatwg-fetch';
 import React from 'react';
 import { hash } from 'rsvp';
 import { Provider } from 'react-redux';
@@ -74,21 +75,21 @@ if (process.env.REACT_APP_PLUGIN_DEV_MODE === 'true') {
 		'color: #00509d; font-family:sans-serif; font-size: 14px; font-weight: 600'
 	);
 
-	if (process.env.REACT_APP_PLUGIN_WEB_VIEW_TARGET) {
+	if (process.env.REACT_APP_PLUGIN) {
 		console.info(
-			`%cPlugin web_view target: ${process.env.REACT_APP_PLUGIN_WEB_VIEW_TARGET}`,
+			`%cPlugin: ${process.env.REACT_APP_PLUGIN}`,
 			'color: #00509d; font-family:sans-serif; font-size: 14px; font-weight: 600'
 		);
 	} else {
 		console.info(
-			'%cYou must pass target parameter',
+			'%cYou must pass plugin parameter',
 			'color: #d90429; font-family:sans-serif'
 		);
 		console.info(
-			'%cnpm run dev:plugin --target=TEST_WEB_VIEW_TARGET',
+			'%cnpm run dev:plugin --plugin=TEST_PLUGIN',
 			'color: #55a630; background-color: #212529; font-family:sans-serif; line-height: 40px; padding: 10px'
 		);
-		throw new Error('target is not defined');
+		throw new Error('plugin is required');
 	}
 }
 
@@ -110,6 +111,18 @@ const drawFavIcon = (url) => {
 	}
 
 	head.appendChild(linkEl);
+};
+
+const getLocalBundle = async (pluginName) => {
+	const url = `/${pluginName}.json`;
+	try {
+		const response = await fetch(url);
+		return await response.json();
+	} catch (err) {
+		throw new Error(
+			`Failed to fetch/parse ${pluginName} configs. Please check ${pluginName}.json in the public folder.`
+		);
+	}
 };
 
 const getConfigs = async () => {
@@ -216,22 +229,59 @@ const getConfigs = async () => {
 	store.dispatch(setInjectedValues(injected_values));
 	store.dispatch(setInjectedHTML(injected_html));
 
-	const { data = {} } = await requestPlugins();
-	if (data.data && data.data.length !== 0) {
-		store.dispatch(setPlugins(data.data));
-		store.dispatch(setWebViews(data.data));
-		store.dispatch(setHelpdeskInfo(data.data));
+	const {
+		data: { data: plugins = [] } = { data: [] },
+	} = await requestPlugins();
+
+	let allPlugins = [];
+
+	if (
+		process.env.REACT_APP_PLUGIN_DEV_MODE === 'true' &&
+		process.env.REACT_APP_PLUGIN
+	) {
+		const pluginName = process.env.REACT_APP_PLUGIN;
+		const pluginObject = await getLocalBundle(pluginName);
+
+		if (pluginObject) {
+			plugins.forEach((plugin) => {
+				if (plugin.name === pluginName) {
+					const mergedPlugin = merge({}, plugin, pluginObject);
+					allPlugins.push(mergedPlugin);
+				} else {
+					allPlugins.push(plugin);
+				}
+			});
+
+			if (!plugins.find(({ name }) => name === pluginName)) {
+				allPlugins.push({ ...pluginObject, name: pluginName });
+			}
+		}
+	} else {
+		allPlugins = plugins;
 	}
+
+	store.dispatch(setPlugins(allPlugins));
+	store.dispatch(setWebViews(allPlugins));
+	store.dispatch(setHelpdeskInfo(allPlugins));
 
 	const appConfigs = merge({}, defaultConfig, remoteConfigs, {
 		coin_icons,
 		captcha,
 	});
 
-	return [appConfigs, injected_values, injected_html];
+	const {
+		app: { plugins_injected_html },
+	} = store.getState();
+
+	return [appConfigs, injected_values, injected_html, plugins_injected_html];
 };
 
-const bootstrapApp = (appConfig, injected_values, injected_html) => {
+const bootstrapApp = (
+	appConfig,
+	injected_values,
+	injected_html,
+	plugins_injected_html
+) => {
 	const {
 		icons: {
 			dark: { EXCHANGE_FAV_ICON = '/favicon.ico' },
@@ -239,6 +289,7 @@ const bootstrapApp = (appConfig, injected_values, injected_html) => {
 	} = appConfig;
 	addElements(injected_values, 'head');
 	injectHTML(injected_html, 'head');
+	injectHTML(plugins_injected_html, 'head');
 	drawFavIcon(EXCHANGE_FAV_ICON);
 	// window.appConfig = { ...appConfig }
 	const {
@@ -267,8 +318,18 @@ const bootstrapApp = (appConfig, injected_values, injected_html) => {
 
 const initialize = async () => {
 	try {
-		const [configs, injected_values, injected_html] = await getConfigs();
-		bootstrapApp(configs, injected_values, injected_html);
+		const [
+			configs,
+			injected_values,
+			injected_html,
+			plugins_injected_html,
+		] = await getConfigs();
+		bootstrapApp(
+			configs,
+			injected_values,
+			injected_html,
+			plugins_injected_html
+		);
 	} catch (err) {
 		console.error('Initialization failed!\n', err);
 		setTimeout(initialize, 3000);

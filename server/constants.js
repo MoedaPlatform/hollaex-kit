@@ -208,7 +208,7 @@ exports.APM_ENABLED = toBool(process.env.APM_ENABLED) || false; // apm is used f
 exports.API_HOST = process.env.API_HOST || 'localhost';
 exports.DOMAIN = process.env.DOMAIN || (process.env.NODE_ENV === 'production' ? 'https://hollaex.com' : 'http://localhost:3000');
 exports.NODE_ENV = process.env.NODE_ENV;
-exports.HOLLAEX_NETWORK_ENDPOINT = process.env.NETWORK === 'testnet' ? 'https://api.testnet.hollaex.network' : 'https://api.hollaex.network';
+exports.HOLLAEX_NETWORK_ENDPOINT = process.env.NETWORK_URL || (process.env.NETWORK === 'testnet' ? 'https://api.testnet.hollaex.network' : 'https://api.hollaex.network');
 exports.HOLLAEX_NETWORK_BASE_URL = '/v2';
 exports.HOLLAEX_NETWORK_PATH_ACTIVATE = '/exchange/activate';
 
@@ -415,9 +415,9 @@ exports.EXPLORERS = {
 			txPath: '/tx'
 		},
 		{
-			name: 'Blockchain.info',
-			baseUrl: 'https://www.blockchain.com',
-			txPath: '/eth/tx'
+			name: 'Ethplorer',
+			baseUrl: 'https://ethplorer.io',
+			txPath: '/tx'
 		}
 	],
 	trx: [
@@ -425,6 +425,58 @@ exports.EXPLORERS = {
 			name: 'Tronscan',
 			baseUrl: 'https://tronscan.org',
 			txPath: '/#/transaction'
+		}
+	],
+	bnb: [
+		{
+			name: 'BSCScan',
+			baseUrl: 'https://bscscan.com',
+			txPath: '/tx'
+		}
+	],
+	doge: [
+		{
+			name: 'DogeChain',
+			baseUrl: 'https://dogechain.info',
+			txPath: '/tx'
+		},
+		{
+			name: 'BlockChair',
+			baseUrl: 'https://blockchair.com',
+			txPath: '/dogecoin/transaction'
+		}
+	],
+	ltc: [
+		{
+			name: 'BlockChair',
+			baseUrl: 'https://blockchair.com',
+			txPath: '/litecoin/transaction'
+		}
+	],
+	etn: [
+		{
+			name: 'Electroneum Explorer',
+			baseUrl: 'https://blockexplorer.electroneum.com',
+			txPath: '/tx'
+		}
+	],
+	ada: [
+		{
+			name: 'BlockChair',
+			baseUrl: 'https://blockchair.com',
+			txPath: '/cardano/transaction'
+		}
+	],
+	eos: [
+		{
+			name: 'Bloks',
+			baseUrl: 'https://bloks.io',
+			txPath: '/transaction'
+		},
+		{
+			name: 'BlockChair',
+			baseUrl: 'https://blockchair.com',
+			txPath: '/eos/transaction'
 		}
 	]
 };
