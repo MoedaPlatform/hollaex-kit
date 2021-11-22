@@ -35,7 +35,7 @@ $toggle-margin: 2px;
 				.toggle-action_button {
 					width: $toggle-size * 3 !important;
 					&.left {
-    					opacity: 1 !important;
+						opacity: 1 !important;
 						.toggle-action_button-display {
 							$right-pos: $toggle-size + $toggle-margin * 2;
 							right: calc(100% - #{$right-pos}) !important;

@@ -79,7 +79,7 @@ class InputGroup extends React.PureComponent {
 				<label className="bold caps-first">
 					<EditWrapper stringId={stringId}>{name}</EditWrapper>
 				</label>
-				<div className={isMobile ? "w-100" : ""}>
+				<div className={isMobile ? 'w-100' : ''}>
 					<Group compact className="input-group__container">
 						<Select
 							open={isOpen}
@@ -149,15 +149,13 @@ class InputGroup extends React.PureComponent {
 							autoFocus={autoFocus}
 						/>
 					</Group>
-					{translateError(this.renderErrorMessage(inputValue))
-						?
+					{translateError(this.renderErrorMessage(inputValue)) ? (
 						<FieldError
 							error={translateError(this.renderErrorMessage(inputValue))}
 							displayError={true}
 							className="input-group__error-wrapper"
 						/>
-						: null
-					}
+					) : null}
 				</div>
 			</div>
 		);

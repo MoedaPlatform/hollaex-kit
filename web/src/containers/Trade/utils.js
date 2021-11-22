@@ -112,7 +112,9 @@ export const marketPriceSelector = createSelector(
 	[tradeHistorySelector, getChartClose],
 	({ data: tradeHistory }, chartCloseValue) => {
 		const marketPrice =
-			tradeHistory && tradeHistory.length > 0 ? tradeHistory[0].price : chartCloseValue;
+			tradeHistory && tradeHistory.length > 0
+				? tradeHistory[0].price
+				: chartCloseValue;
 		return marketPrice;
 	}
 );
@@ -121,7 +123,7 @@ export const activeOrdersSelector = createSelector(
 	getActiveOrders,
 	getPair,
 	(orders, pair) => {
-		return orders
+		return orders;
 	}
 );
 

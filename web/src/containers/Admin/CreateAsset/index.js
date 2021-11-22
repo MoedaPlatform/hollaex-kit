@@ -194,9 +194,12 @@ class CreateAsset extends Component {
 		const value = event.target.value;
 		if (
 			value &&
-			((value.split('.')[1].toUpperCase() === 'JPG' || value.toLowerCase().includes('jpg')) ||
-				(value.split('.')[1].toUpperCase() === 'JPEG' || value.toLowerCase().includes('jpeg')) ||
-				(value.split('.')[1].toUpperCase() === 'PNG' || value.toLowerCase().includes('png')))
+			(value.split('.')[1].toUpperCase() === 'JPG' ||
+				value.toLowerCase().includes('jpg') ||
+				value.split('.')[1].toUpperCase() === 'JPEG' ||
+				value.toLowerCase().includes('jpeg') ||
+				value.split('.')[1].toUpperCase() === 'PNG' ||
+				value.toLowerCase().includes('png'))
 		) {
 			const file = event.target.files[0];
 			if (file) {

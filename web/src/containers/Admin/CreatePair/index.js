@@ -36,7 +36,7 @@ class CreatePair extends Component {
 			currentPresetPair: {},
 			pairsRemaining: [],
 			activeTab: '0',
-			isExistPair: false
+			isExistPair: false,
 		};
 	}
 
@@ -72,8 +72,8 @@ class CreatePair extends Component {
 					...this.state.formData,
 					estimated_price: 1,
 					pair_base: pairs[0],
-					pair_2: pairs[1]
-				}
+					pair_2: pairs[1],
+				},
 			});
 		}
 	}
@@ -213,7 +213,9 @@ class CreatePair extends Component {
 	};
 
 	handleChange = (value, name) => {
-		let coinsData = this.props.allCoins.filter((val) => this.props.coins.includes(val.symbol));
+		let coinsData = this.props.allCoins.filter((val) =>
+			this.props.coins.includes(val.symbol)
+		);
 		let coinSecondary = this.state.coinSecondary;
 		let formData = {
 			...this.state.formData,
@@ -284,7 +286,7 @@ class CreatePair extends Component {
 	};
 
 	handleExistPair = (value) => {
-		this.setState({ isExistPair: value })
+		this.setState({ isExistPair: value });
 	};
 
 	renderSection = () => {
@@ -295,7 +297,7 @@ class CreatePair extends Component {
 			currentPresetPair,
 			pairsRemaining,
 			activeTab,
-			isExistPair
+			isExistPair,
 		} = this.state;
 		const {
 			coins,
@@ -308,7 +310,7 @@ class CreatePair extends Component {
 			onClose,
 			exchange,
 			getMyExchange,
-			constants
+			constants,
 		} = this.props;
 		let coinsData = allCoins.filter((val) => coins.includes(val.symbol));
 		let pairsData = allPairs.filter((data) => pairs.includes(data.name));
@@ -432,8 +434,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 CreatePair.defaultProps = {
-	handleWidth: () => { },
-	editDataCallback: () => { },
+	handleWidth: () => {},
+	editDataCallback: () => {},
 };
 
 export default connect(mapStateToProps)(CreatePair);

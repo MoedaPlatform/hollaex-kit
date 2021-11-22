@@ -16,7 +16,7 @@ const PluginDetails = ({
 	pluginData,
 	isLoading,
 	restart,
-	handleRedirect
+	handleRedirect,
 }) => {
 	const [isOpen, setOpen] = useState(false);
 	const [type, setType] = useState('');

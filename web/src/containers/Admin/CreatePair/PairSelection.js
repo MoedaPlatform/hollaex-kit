@@ -34,8 +34,8 @@ const PairSelection = ({
 			</div>
 			<div className="title">Select a market</div>
 			<div>
-				Markets are based on assets selected in the previous step. To see
-				more markets go back and add more assets.
+				Markets are based on assets selected in the previous step. To see more
+				markets go back and add more assets.
 			</div>
 			<Input placeholder={'Search market'} onChange={handleSearch} />
 			<div className="sub-title">Markets:</div>

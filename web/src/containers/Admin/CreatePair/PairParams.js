@@ -10,7 +10,7 @@ class PairParams extends Component {
 		super(props);
 		this.state = {
 			isLoading: false,
-			tabParams: getTabParams()
+			tabParams: getTabParams(),
 		};
 	}
 
@@ -31,7 +31,7 @@ class PairParams extends Component {
 			onClose();
 		} else if (this.state.tabParams.isOpenPairModal) {
 			onClose();
-			router.replace("/admin/trade?tab=1&isViewTabs=true");
+			router.replace('/admin/trade?tab=1&isViewTabs=true');
 		} else {
 			moveToStep('pair-init-selection');
 		}
@@ -59,12 +59,16 @@ class PairParams extends Component {
 				<div>Click edit to change these trade values.</div>
 				<div className="d-flex align-items-center coin-container">
 					<div className="d-flex align-items-center">
-						<Coins type={pairBase.symbol} small={true} color={pairBase.meta.color}/>
+						<Coins
+							type={pairBase.symbol}
+							small={true}
+							color={pairBase.meta.color}
+						/>
 						<span className="coin-full-name">{pairBase.fullname}</span>
 					</div>
 					<CloseOutlined style={{ fontSize: '24px' }} />
 					<div className="d-flex align-items-center">
-						<Coins type={pair2.symbol} small={true} color={pair2.meta.color}/>
+						<Coins type={pair2.symbol} small={true} color={pair2.meta.color} />
 						<span className="coin-full-name">{pair2.fullname}</span>
 					</div>
 				</div>

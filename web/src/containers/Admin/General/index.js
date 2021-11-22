@@ -19,7 +19,7 @@ import { getGeneralFields } from './utils';
 import { publish } from 'actions/operatorActions';
 import merge from 'lodash.merge';
 import { clearFileInputById } from 'helpers/vanilla';
-import {COUNTRIES_OPTIONS} from '../../../utils/countries'
+import { COUNTRIES_OPTIONS } from '../../../utils/countries';
 
 import './index.css';
 import { handleUpgrade } from 'utils/utils';
@@ -32,7 +32,7 @@ const NativeCurrencyForm = AdminHocForm('NativeCurrencyForm');
 const HelpDeskForm = AdminHocForm('HelpDeskForm');
 const APIDocLinkForm = AdminHocForm('APIDocLinkForm');
 const CaptchaForm = AdminHocForm('CaptchaForm');
-const CountryForm = AdminHocForm('CountryForm')
+const CountryForm = AdminHocForm('CountryForm');
 
 class General extends Component {
 	constructor() {
@@ -44,7 +44,7 @@ class General extends Component {
 			initialNameValues: {},
 			initialLanguageValues: {},
 			initialThemeValues: {},
-			initialCountryValues:{},
+			initialCountryValues: {},
 			initialEmailValues: {},
 			initialLinkValues: {},
 			initialEmailVerificationValues: {},
@@ -86,7 +86,7 @@ class General extends Component {
 		let initialNameValues = { ...this.state.initialNameValues };
 		let initialLanguageValues = { ...this.state.initialLanguageValues };
 		let initialThemeValues = { ...this.state.initialThemeValues };
-		let initialCountryValues={...this.state.initialCountryValues}
+		let initialCountryValues = { ...this.state.initialCountryValues };
 		let initialEmailVerificationValues = {
 			...this.state.initialEmailVerificationValues,
 		};
@@ -109,7 +109,9 @@ class General extends Component {
 		initialThemeValues = { ...initialThemeValues, theme: defaults.theme };
 		initialCountryValues = {
 			...initialCountryValues,
-			country: !defaults.country ? COUNTRIES_OPTIONS[0].value : defaults.country
+			country: !defaults.country
+				? COUNTRIES_OPTIONS[0].value
+				: defaults.country,
 		};
 		initialEmailVerificationValues = {
 			...initialEmailVerificationValues,

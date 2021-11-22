@@ -143,12 +143,7 @@ class MyPlugins extends Component {
 	};
 
 	checkJSON = (json) => {
-		if (
-			json &&
-			json.name &&
-			json.version &&
-			json.author
-		) {
+		if (json && json.name && json.version && json.author) {
 			return true;
 		} else {
 			return false;

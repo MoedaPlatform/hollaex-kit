@@ -118,12 +118,14 @@ const getColumns = (
 							type="warning"
 							tip="This asset is in pending verification"
 							onClick={(e) => {
-								if (selectedAsset.created_by === _get(constants, 'info.user_id')) {
+								if (
+									selectedAsset.created_by === _get(constants, 'info.user_id')
+								) {
 									handleEdit(selectedAsset, e);
 								}
 							}}
 						/>
-						) : selectedAsset.created_by === _get(constants, 'info.user_id') ? (
+					) : selectedAsset.created_by === _get(constants, 'info.user_id') ? (
 						<div className="config-content">
 							(
 							<span
@@ -655,7 +657,8 @@ class Assets extends Component {
 							userEmails={this.state.userEmails}
 						/>
 					</div>
-					{this.state.selectedAsset.created_by === _get(constants, 'info.user_id') ? (
+					{this.state.selectedAsset.created_by ===
+					_get(constants, 'info.user_id') ? (
 						<div>
 							<div className="d-flex">
 								<Button

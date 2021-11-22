@@ -19,7 +19,7 @@ const Burn = ({
 	const [form] = Form.useForm();
 	const getAllUsers = useCallback(async (params = {}) => {
 		try {
-			const res = await requestUsers (params);
+			const res = await requestUsers(params);
 			if (res && res.data) {
 				const exchangeUsers = res.data || [];
 				setDataSource(exchangeUsers);
@@ -56,9 +56,7 @@ const Burn = ({
 		try {
 			const res = await storeBurn(formValues);
 			if (res) {
-				message.success(
-					`${res.amount} ${res.currency} successfully burnt`
-				);
+				message.success(`${res.amount} ${res.currency} successfully burnt`);
 			}
 		} catch (error) {
 			if (error.data && error.data.message) {

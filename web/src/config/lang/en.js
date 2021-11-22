@@ -204,6 +204,8 @@ export default {
 		LOGIN_TO: 'Login to {0}',
 		CANT_LOGIN: "Can't login?",
 		NO_ACCOUNT: "Don't have an account?",
+		MOEDA_PAY_ACCOUNT: 'Are you a MoedaPay user?',
+		CONNECT_WITH_MOEDA_PAY: 'Connect with MoedaPay',
 		CREATE_ACCOUNT: 'Create one here',
 		HELP: 'Help',
 	},
@@ -1079,7 +1081,8 @@ export default {
 	WITHDRAWALS_FORM_DESTINATION_TAG_WARNING:
 		'Check if receiving address requires a Tag. Also known as Memo, digital ID, label, and notes.',
 	WITHDRAWALS_FORM_NETWORK_PLACEHOLDER: 'Select a network',
-	WITHDRAWALS_FORM_ADDRESS_LABEL: 'Destination address',
+	WITHDRAWALS_FORM_ADDRESS_LABEL:
+		'Destination address or Moeda account (email/phone number)',
 	WITHDRAWALS_FORM_ADDRESS_PLACEHOLDER: 'Type the address',
 	WITHDRAWALS_FORM_DESTINATION_TAG_LABEL: 'Destination tag (optional)', // new
 	WITHDRAWALS_FORM_MEMO_LABEL: 'Memo (optional)', // new
@@ -1154,6 +1157,7 @@ export default {
 		GO_WITHDRAWAL_HISTORY: 'Go To Withdrawal History',
 	},
 	WALLET_BUTTON_BASE_DEPOSIT: 'deposit',
+	WALLET_BUTTON_BASE_WITHDRAW_MOEDA: 'enviar para conta Moeda',
 	WALLET_BUTTON_BASE_WITHDRAW: 'withdraw',
 	WALLET_BUTTON_CRYPTOCURRENCY_DEPOSIT: 'receive',
 	WALLET_BUTTON_CRYPTOCURRENCY_WITHDRAW: 'send',

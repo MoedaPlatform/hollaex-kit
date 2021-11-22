@@ -117,12 +117,7 @@ class Markets extends Component {
 	};
 
 	renderMarket = (data) => {
-		const {
-			pairs,
-			tickers,
-			coins,
-			isHome = false
-		} = this.props;
+		const { pairs, tickers, coins, isHome = false } = this.props;
 		const marketData = data.map((key) => {
 			let pair = pairs[key] || {};
 			let { fullname, symbol = '' } =
@@ -155,14 +150,10 @@ class Markets extends Component {
 			this.props.renderContent(marketData);
 		}
 		return marketData;
-	}
+	};
 
 	render() {
-		const {
-			showSearch = true,
-			showMarkets = false,
-			router,
-		} = this.props;
+		const { showSearch = true, showMarkets = false, router } = this.props;
 		const { data, chartData, page, pageSize, count } = this.state;
 		const processedData = this.renderMarket(data);
 

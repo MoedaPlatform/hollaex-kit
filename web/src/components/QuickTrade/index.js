@@ -33,7 +33,7 @@ class QuickTrade extends Component {
 			market: {},
 			chartData: {},
 			pairBase: '',
-			pair_2: ''
+			pair_2: '',
 		};
 	}
 
@@ -43,7 +43,7 @@ class QuickTrade extends Component {
 			this.setState({
 				market: this.props.market,
 				pairBase: keyData[0],
-				pair_2: keyData[1]
+				pair_2: keyData[1],
 			});
 		}
 
@@ -58,7 +58,7 @@ class QuickTrade extends Component {
 			this.setState({
 				market: this.props.market,
 				pairBase: keyData[0],
-				pair_2: keyData[1]
+				pair_2: keyData[1],
 			});
 		}
 
@@ -123,7 +123,14 @@ class QuickTrade extends Component {
 			coins,
 			user,
 		} = this.props;
-		const { inProp, market, tickerDiff, chartData, pairBase, pair_2 } = this.state;
+		const {
+			inProp,
+			market,
+			tickerDiff,
+			chartData,
+			pairBase,
+			pair_2,
+		} = this.state;
 
 		const {
 			key,
@@ -212,8 +219,7 @@ class QuickTrade extends Component {
 											className="pairs pointer"
 											onClick={() => this.handleClick(key)}
 										>
-											{pairBase.toUpperCase()}/
-											{pair_2.toUpperCase()}
+											{pairBase.toUpperCase()}/{pair_2.toUpperCase()}
 										</div>
 										<div className="fullname">
 											{pairBase_fullName}/{pair2_fullName}
@@ -419,7 +425,7 @@ class QuickTrade extends Component {
 									onClick={onReviewQuickTrade}
 									disabled={disabled}
 									type="button"
-									className={!isMobile ? "w-50" : "w-100"}
+									className={!isMobile ? 'w-50' : 'w-100'}
 								/>
 							</div>
 							<div className="footer-text">
@@ -430,8 +436,7 @@ class QuickTrade extends Component {
 									<EditWrapper stringId="QUICK_TRADE_COMPONENT.FOOTER_TEXT_1">
 										<div>{STRINGS['QUICK_TRADE_COMPONENT.FOOTER_TEXT_1']}</div>
 									</EditWrapper>
-									: {pairBase.toUpperCase()}/
-									{pair_2.toUpperCase()}{' '}
+									: {pairBase.toUpperCase()}/{pair_2.toUpperCase()}{' '}
 									<span>{STRINGS['TYPES_VALUES.market']}</span>
 								</div>
 							</div>

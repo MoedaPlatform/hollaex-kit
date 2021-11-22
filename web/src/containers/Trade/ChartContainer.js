@@ -22,4 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
 	setChartHigh: bindActionCreators(setChartHigh, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withConfig(ChartContainer));
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(withConfig(ChartContainer));

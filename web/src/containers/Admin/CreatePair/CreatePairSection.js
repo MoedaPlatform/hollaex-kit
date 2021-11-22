@@ -26,14 +26,16 @@ const CreatePairSection = ({
 	handleChange,
 	moveToStep,
 	pairs,
-	handleExistPair
+	handleExistPair,
 }) => {
 	const [isExistError, setExistError] = useState('');
 	const checkExist = () => {
 		const existFromPair = allPairs.filter(
 			(pair) => pair.name === `${formData.pair_base}-${formData.pair_2}`
 		);
-		const existExchangePair = pairs.includes(`${formData.pair_base}-${formData.pair_2}`);
+		const existExchangePair = pairs.includes(
+			`${formData.pair_base}-${formData.pair_2}`
+		);
 		if (!formData.pair_2) {
 			setExistError("Can't create a market without adding a second asset.");
 		} else if (existExchangePair) {

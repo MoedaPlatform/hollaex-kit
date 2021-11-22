@@ -52,7 +52,7 @@ import { setAllPairs, setCoins, setExchange } from 'actions/assetActions';
 // import { allPairs } from '../Trades/Pairs';
 import {
 	getAllCoins,
-	getAllPairs, 
+	getAllPairs,
 	// getConstants,
 	getExchange,
 } from '../AdminFinancials/action';
@@ -194,7 +194,7 @@ class AppWrapper extends React.Component {
 		await this.getExchange();
 		await this.getCoins();
 		await this.getPairs();
-	}
+	};
 
 	getExchange = async () => {
 		try {
@@ -519,7 +519,7 @@ class AppWrapper extends React.Component {
 					</div>
 				);
 			default:
-				return <div></div>
+				return <div></div>;
 		}
 	};
 

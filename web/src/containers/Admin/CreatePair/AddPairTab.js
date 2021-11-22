@@ -131,10 +131,9 @@ const AddPairTab = ({
 			<div className="title">Add Market</div>
 			{isExchangeWizard ? (
 				<div>
-					Markets are based on assets selected in the previous step. To see
-					more markets{' '}
-					<Link onClick={() => moveToParentStep(2)}>go back</Link> and add more
-					assets.
+					Markets are based on assets selected in the previous step. To see more
+					markets <Link onClick={() => moveToParentStep(2)}>go back</Link> and
+					add more assets.
 				</div>
 			) : null}
 			<Tab

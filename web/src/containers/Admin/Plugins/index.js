@@ -194,7 +194,7 @@ class Plugins extends Component {
 			selectedPlugin: {},
 			type: '',
 			isConfigure: false,
-			tabKey: 'explore'
+			tabKey: 'explore',
 		});
 	};
 

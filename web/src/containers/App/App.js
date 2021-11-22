@@ -13,7 +13,7 @@ import querystring from 'query-string';
 import { setSideBarState, getSideBarState } from 'utils/sideBar';
 import AppMenuSidebar from '../../components/AppMenuSidebar';
 import { addElements, injectHTML } from 'utils/script';
-import { SuccessDisplay } from 'components'
+import { SuccessDisplay } from 'components';
 
 import {
 	NOTIFICATIONS,
@@ -132,10 +132,12 @@ class App extends Component {
 		injectHTML(injected_html, 'body');
 		injectHTML(plugins_injected_html, 'body');
 		const qs = querystring.parse(this.props.location.search);
-		if (Object.keys(qs).length
-			&& !this.props.location.pathname.includes('trade')
-			&& !this.props.location.pathname.includes('quick-trade')
-			&& !this.props.location.pathname.includes('account')) {
+		if (
+			Object.keys(qs).length &&
+			!this.props.location.pathname.includes('trade') &&
+			!this.props.location.pathname.includes('quick-trade') &&
+			!this.props.location.pathname.includes('account')
+		) {
 			const { success_alert, error_alert } = qs;
 			if (success_alert) {
 				const paramsData = { status: true, message: success_alert };
@@ -591,7 +593,7 @@ class App extends Component {
 			appLoaded,
 			chatIsClosed,
 			isCustomNotification,
-			paramsData
+			paramsData,
 			// sidebarFitHeight,
 			// isSidebarOpen,
 		} = this.state;
@@ -618,10 +620,10 @@ class App extends Component {
 
 		const homeBackgroundProps = isHome
 			? {
-				backgroundImage: `url(${ICONS['EXCHANGE_LANDING_PAGE']})`,
-				backgroundSize: '100%',
-				backgroundRepeat: 'repeat-y',
-			}
+					backgroundImage: `url(${ICONS['EXCHANGE_LANDING_PAGE']})`,
+					backgroundSize: '100%',
+					backgroundRepeat: 'repeat-y',
+			  }
 			: {};
 
 		return (

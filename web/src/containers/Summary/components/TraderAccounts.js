@@ -69,18 +69,19 @@ const TraderAccounts = ({
 				<div className="account-details-content">
 					<div className="mb-2">{description}</div>
 				</div>
-				{!isAccountDetails && user.discount
-					?
+				{!isAccountDetails && user.discount ? (
 					<div className="d-flex">
 						<div>
-							<ReactSVG src={ICONS['GREEN_CHECK']} className="currency_ball-wrapper s mr-2" />
+							<ReactSVG
+								src={ICONS['GREEN_CHECK']}
+								className="currency_ball-wrapper s mr-2"
+							/>
 						</div>
 						<div>
 							{STRINGS['FEE_REDUCTION']}: {user.discount}%
 						</div>
 					</div>
-					: null
-				}
+				) : null}
 				{/* {!!limitLevel.length && <div
                     className="trade-account-link mb-2">
                     <span

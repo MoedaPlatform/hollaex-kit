@@ -128,7 +128,7 @@ const AssetParams = ({
 							if (editParams) {
 								handleScreenChange('edit-params');
 							} else {
-								handleScreenChange('step8')
+								handleScreenChange('step8');
 							}
 						}}
 					>
